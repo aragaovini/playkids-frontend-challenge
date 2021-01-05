@@ -1,3 +1,6 @@
 module.exports = {
-  publicPath: "/playkids-frontend-challenge/"
+  publicPath:
+    process.env.NODE_ENV === "production"
+      ? "/playkids-frontend-challenge/"
+      : "/"
 };
