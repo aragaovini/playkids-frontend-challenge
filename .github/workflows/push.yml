@@ -1,15 +1,13 @@
-name: CI
+name: Deploy workflow
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
   workflow_dispatch:
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
