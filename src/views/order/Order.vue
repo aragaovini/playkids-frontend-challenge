@@ -1,11 +1,12 @@
 <template>
   <div>
-    <h1>Orders</h1>
+    <h1>New Order</h1>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Home"
+  name: 'Order'
 };
 </script>
