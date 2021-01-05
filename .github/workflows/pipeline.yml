@@ -25,6 +25,8 @@ jobs:
         run: npm run build
 
       - uses: crazy-max/ghaction-github-pages@v2.2.0
+        with:
+          build_dir: dist
         env:
           REPO: self
           BRANCH: master
