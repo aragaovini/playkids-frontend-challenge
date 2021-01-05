@@ -24,10 +24,6 @@ jobs:
       - name: Build production application
         run: npm run build
 
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
       - uses: crazy-max/ghaction-github-pages@v2.2.0
         name: Deploying to github pages
         with:
