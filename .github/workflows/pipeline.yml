@@ -23,6 +23,10 @@ jobs:
 
       - name: build production application version
         run: npm run build
+
+        - uses: fregante/setup-git-token@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - uses: crazy-max/ghaction-github-pages@v2.2.0
         with:
