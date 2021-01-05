@@ -21,14 +21,17 @@ jobs:
       - name: executing tests
         run: npm run test:unit
 
-      - name: build production application version
+      - name: Build production application
         run: npm run build
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
       - uses: crazy-max/ghaction-github-pages@v2.2.0
+        name: Deploying to github pages
         with:
+          target_branch: gh-pages
           build_dir: dist
         env:
-          REPO: self
-          BRANCH: master
-          FOLDER: dist
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
