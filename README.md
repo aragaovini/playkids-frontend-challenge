@@ -13,10 +13,11 @@ Develop an application to manage restaurant orders. The proposal is to implement
 #### Prerequisites
 
 - The application must be developed using essentially Vue, without the aid of frameworks like NuxtJS or similar;
+- Feel free to bootstrap the project using your own environment configuration or using Vue CLI;
 - The application must have a single-page application (SPA) architecture;
 - State management must use Vuex;
 - Styles (CSS) must be implemented without the aid of libs or third party frameworks;
-- The application must have two main modules: Orders and Billing;
+- The application must have two main modules: **Orders** and **Billing**;
 - The list of available products and prices must be obtained at: https://5ff37c3328c3980017b195e8.mockapi.io/api/products;
 - Price values ​​must be treated as BRL (R$);
 - The README must contain instructions about how to install the environment and run the application.
