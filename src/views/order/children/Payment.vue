@@ -2,6 +2,8 @@
   <div>
     <h2>Payment</h2>
 
+    <p>Total: {{ amount | currency }}</p>
+
     <c-input label="Name" v-model="payment.name" />
     <c-input
       label="Card number"
@@ -35,7 +37,15 @@ export default {
   },
 
   computed: {
-    ...mapState('order', ['newOrder'])
+    ...mapState('order', ['newOrder']),
+    amount() {
+      if (this.newOrder.items.length) {
+        return this.newOrder.items.reduce((acc, value) => {
+          return acc + value.price;
+        }, 0);
+      }
+      return 0;
+    }
   },
 
   data: () => ({
@@ -60,7 +70,8 @@ export default {
       this.$store.commit('order/save', {
         payment,
         createdAt: new Date().toLocaleString(),
-        id: this.$uuid.v1()
+        id: this.$uuid.v1(),
+        total: this.amount
       });
       this.$store.commit('restaurantMenu/setItems', []);
       this.$router.push('/orders');
