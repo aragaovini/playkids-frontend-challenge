@@ -13,7 +13,7 @@ const restaurantMenu = {
 
   mutations: {
     setItems(state, menu) {
-      state.items = menu.data;
+      state.items = menu;
     },
 
     setItemSelected(state, { itemId, selected }) {
@@ -31,7 +31,8 @@ const restaurantMenu = {
 
   actions: {
     async get({ commit }) {
-      commit('setItems', await getMenu());
+      const { data } = await getMenu();
+      commit('setItems', data);
     }
   }
 };
