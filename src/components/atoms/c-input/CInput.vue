@@ -1,7 +1,7 @@
 <template>
   <div>
     <label>{{ label }}</label>
-    <input @input="handleInput" />
+    <input v-bind="$attrs" @input="handleInput" />
   </div>
 </template>
 

@@ -5,6 +5,11 @@ import Order from '../views/order/Order.vue';
 
 Vue.use(VueRouter);
 
+const ItemSelectionView = () =>
+  import(
+    /* webpackChunkName: "item-selection" */ '../views/order/children/ItemSelection.vue'
+  );
+
 const routes = [
   {
     path: '/',
@@ -17,7 +22,6 @@ const routes = [
   },
   {
     path: '/order',
-    name: 'Order',
     component: Order,
     children: [
       {
@@ -31,6 +35,18 @@ const routes = [
           import(
             /* webpackChunkName: "customer-identification" */ '../views/order/children/CustomerIdentification.vue'
           )
+      },
+      {
+        path: 'food',
+        name: 'FoodSelection',
+        props: { category: 'food' },
+        component: ItemSelectionView
+      },
+      {
+        path: 'drink',
+        name: 'DrinkSelection',
+        props: { category: 'drink' },
+        component: ItemSelectionView
       }
     ]
   }
