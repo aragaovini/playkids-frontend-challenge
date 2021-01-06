@@ -2,22 +2,22 @@
   <div>
     <h2>Payment</h2>
 
-    <c-input label="Name" v-model="name" />
+    <c-input label="Name" v-model="payment.name" />
     <c-input
       label="Card number"
       v-mask="['#### #### #### ####']"
-      v-model="cardNumber"
+      v-model="payment.cardNumber"
     />
     <c-input
       label="Valid date"
       v-mask="['##/##']"
       placeholder="mm/aa"
-      v-model="validDate"
+      v-model="payment.validDate"
     />
-    <c-input label="CCV" v-mask="['###']" v-model="ccv" />
+    <c-input label="CVV" v-mask="['####']" v-model="payment.cvv" />
 
     <c-button @click="back">Back</c-button>
-    <c-button @click="next">Next</c-button>
+    <c-button @click="order">Order</c-button>
   </div>
 </template>
 
@@ -39,10 +39,12 @@ export default {
   },
 
   data: () => ({
-    name: '',
-    cardNumber: '',
-    validDate: '',
-    ccv: ''
+    payment: {
+      name: '',
+      cardNumber: '',
+      validDate: '',
+      cvv: ''
+    }
   }),
 
   created() {
@@ -53,7 +55,14 @@ export default {
   },
 
   methods: {
-    next() {
+    order() {
+      const { payment } = this;
+      this.$store.commit('order/save', {
+        payment,
+        createdAt: new Date().toLocaleString(),
+        id: this.$uuid.v1()
+      });
+      this.$store.commit('restaurantMenu/setItems', []);
       this.$router.push('/orders');
     },
     back() {

@@ -2,6 +2,7 @@ const order = {
   namespaced: true,
 
   state: {
+    orders: [],
     newOrder: {
       itemsDeletable: true,
       customerIdentification: '',
@@ -26,6 +27,21 @@ const order = {
 
     setItemsDeletable(state, option) {
       state.newOrder.itemsDeletable = option;
+    },
+
+    save(state, details) {
+      const order = {
+        ...state.newOrder,
+        payment: details.payment,
+        createdAt: details.createdAt,
+        id: details.id
+      };
+      state.orders.push(order);
+      state.newOrder = {
+        itemsDeletable: true,
+        customerIdentification: '',
+        items: []
+      };
     }
   }
 };
