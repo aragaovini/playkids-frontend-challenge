@@ -17,7 +17,6 @@ const routes = [
   },
   {
     path: '/order',
-    name: 'Order',
     component: Order,
     children: [
       {
@@ -30,6 +29,15 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "customer-identification" */ '../views/order/children/CustomerIdentification.vue'
+          )
+      },
+      {
+        path: 'food',
+        name: 'FoodSelection',
+        props: { category: 'food' },
+        component: () =>
+          import(
+            /* webpackChunkName: "food-selection" */ '../views/order/children/ItemSelection.vue'
           )
       }
     ]

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Customer Identification</h1>
+    <h2>Customer Identification</h2>
 
     <c-input label="Name" v-model="customerIdentification" />
 
@@ -27,11 +27,9 @@ export default {
   methods: {
     next() {
       const { customerIdentification } = this;
-      this.$store.commit('orders/create', {
-        customerIdentification
-      });
+      this.$store.commit('order/setName', customerIdentification);
 
-      this.$router.push('/');
+      this.$router.push('/order/food');
     }
   }
 };
