@@ -10,6 +10,7 @@
         <p>Price: {{ price | currency }}</p>
 
         <c-input
+          autofocus
           min="1"
           label="Quantity"
           v-model.number="quantity"

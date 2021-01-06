@@ -8,10 +8,16 @@
 
         <p>{{ newOrder.customerIdentification }}</p>
         <ul>
-          <li v-for="item in newOrder.items" :key="item.id">
-            <p>{{ item.name }}</p>
-            <p>Qt.:{{ item.quantity }}</p>
-            <p>{{ item.price | currency }}</p>
+          <li v-for="item in newOrder.items" class="list-item" :key="item.id">
+            <div>
+              <p>{{ item.name }}</p>
+              <p>Qt.:{{ item.quantity }}</p>
+              <p>{{ item.price | currency }}</p>
+            </div>
+            <trash-can-icon
+              class="list-item__action-icon"
+              @click="() => removeItemFromOrder(item)"
+            />
           </li>
         </ul>
       </div>
@@ -21,12 +27,27 @@
 
 <script>
 import { mapState } from 'vuex';
+import TrashCanIcon from 'vue-material-design-icons/TrashCan.vue';
 
 export default {
   name: 'Order',
 
+  components: {
+    TrashCanIcon
+  },
+
   computed: {
     ...mapState('order', ['newOrder'])
+  },
+
+  methods: {
+    removeItemFromOrder(item) {
+      this.$store.commit('order/removeItem', item);
+      this.$store.commit('restaurantMenu/setItemSelected', {
+        itemId: item.id,
+        selected: false
+      });
+    }
   }
 };
 </script>
@@ -45,5 +66,14 @@ export default {
 
 .order-view {
   flex: auto;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-item__action-icon:hover {
+  cursor: pointer;
 }
 </style>

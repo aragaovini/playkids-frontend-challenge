@@ -40,6 +40,11 @@ export default {
   }),
 
   created() {
+    if (!this.newOrder.customerIdentification) {
+      this.$router.push('/order/customer');
+      return;
+    }
+
     const { category } = this.$attrs;
     this.category = category;
 
@@ -49,12 +54,9 @@ export default {
   methods: {
     handleChosenItem(item) {
       this.$store.commit('order/setItem', item);
-
-      const items = [...this.list];
-      items.map(menuItem => {
-        if (menuItem.id === item.id) {
-          menuItem.selected = true;
-        }
+      this.$store.commit('restaurantMenu/setItemSelected', {
+        itemId: item.id,
+        selected: true
       });
     },
 

@@ -15,10 +15,13 @@ const restaurantMenu = {
       state.items = menu.data;
     },
 
-    updateItem(state, item) {
+    setItemSelected(state, { itemId, selected }) {
       state.items = state.items.map(menuItem => {
-        if (menuItem.id === item.id) {
-          return item;
+        if (menuItem.id === itemId) {
+          return {
+            ...menuItem,
+            selected
+          };
         }
         return menuItem;
       });

@@ -15,6 +15,12 @@ const order = {
 
     setItem(state, item) {
       state.newOrder.items.push(item);
+    },
+
+    removeItem(state, item) {
+      state.newOrder.items = state.newOrder.items.filter(
+        menuItem => menuItem.id !== item.id
+      );
     }
   }
 };
