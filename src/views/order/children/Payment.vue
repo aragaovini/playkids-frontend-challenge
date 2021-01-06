@@ -3,9 +3,18 @@
     <h2>Payment</h2>
 
     <c-input label="Name" v-model="name" />
-    <c-input label="Card number" v-model="cardNumber" />
-    <c-input label="Valid date" v-model="validDate" />
-    <c-input label="CCV" v-model="ccv" />
+    <c-input
+      label="Card number"
+      v-mask="['#### #### #### ####']"
+      v-model="cardNumber"
+    />
+    <c-input
+      label="Valid date"
+      v-mask="['##/##']"
+      placeholder="mm/aa"
+      v-model="validDate"
+    />
+    <c-input label="CCV" v-mask="['###']" v-model="ccv" />
 
     <c-button @click="back">Back</c-button>
     <c-button @click="next">Next</c-button>
