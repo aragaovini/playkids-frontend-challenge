@@ -45,6 +45,14 @@ const routes = [
         path: 'drink',
         name: 'DrinkSelection',
         component: ItemSelectionView
+      },
+      {
+        path: 'payment',
+        name: 'Payment',
+        component: () =>
+          import(
+            /* webpackChunkName: "payment" */ '../views/order/children/Payment.vue'
+          )
       }
     ]
   }

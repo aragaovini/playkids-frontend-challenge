@@ -15,6 +15,7 @@
               <p>{{ item.price | currency }}</p>
             </div>
             <trash-can-icon
+              v-if="newOrder.itemsDeletable"
               class="list-item__action-icon"
               @click="() => removeItemFromOrder(item)"
             />
@@ -47,6 +48,13 @@ export default {
         itemId: item.id,
         selected: false
       });
+    }
+  },
+
+  watch: {
+    $route(to) {
+      const isPaymentStep = to.fullPath.includes('payment');
+      this.$store.commit('order/setItemsDeletable', !isPaymentStep);
     }
   }
 };

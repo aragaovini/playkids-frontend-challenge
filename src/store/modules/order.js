@@ -3,6 +3,7 @@ const order = {
 
   state: {
     newOrder: {
+      itemsDeletable: true,
       customerIdentification: '',
       items: []
     }
@@ -21,6 +22,10 @@ const order = {
       state.newOrder.items = state.newOrder.items.filter(
         menuItem => menuItem.id !== item.id
       );
+    },
+
+    setItemsDeletable(state, option) {
+      state.newOrder.itemsDeletable = option;
     }
   }
 };

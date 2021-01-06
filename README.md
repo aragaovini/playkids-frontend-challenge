@@ -1,4 +1,4 @@
-# playkids-frontend-challenge3
+# playkids-frontend-challenge
 
 ## Project setup
 ```

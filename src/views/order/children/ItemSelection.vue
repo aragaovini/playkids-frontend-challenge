@@ -46,7 +46,9 @@ export default {
       return;
     }
 
-    this.$store.dispatch('restaurantMenu/get');
+    if (!this.list.length) this.$store.dispatch('restaurantMenu/get');
+
+    this.isFoodStep = this.$route.fullPath.includes('food');
   },
 
   methods: {
@@ -59,7 +61,15 @@ export default {
     },
 
     next() {
-      const nextStep = this.isFoodStep ? '/order/drink' : '';
+      let nextStep = '';
+      if (this.isFoodStep) {
+        nextStep = '/order/drink';
+      } else {
+        if (!this.newOrder.items.length) {
+          return;
+        }
+        nextStep = '/order/payment';
+      }
       this.$router.push(nextStep);
     },
     back() {
