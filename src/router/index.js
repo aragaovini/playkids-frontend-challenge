@@ -39,13 +39,11 @@ const routes = [
       {
         path: 'food',
         name: 'FoodSelection',
-        props: { category: 'food' },
         component: ItemSelectionView
       },
       {
         path: 'drink',
         name: 'DrinkSelection',
-        props: { category: 'drink' },
         component: ItemSelectionView
       }
     ]

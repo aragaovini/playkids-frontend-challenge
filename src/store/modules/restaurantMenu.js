@@ -7,7 +7,8 @@ const restaurantMenu = {
   },
 
   getters: {
-    foodList: state => state.items.filter(item => item.category === 'food')
+    foodList: state => state.items.filter(item => item.category === 'food'),
+    drinkList: state => state.items.filter(item => item.category === 'drink')
   },
 
   mutations: {
