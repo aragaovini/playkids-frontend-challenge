@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import orders from './modules/orders';
+import order from './modules/order';
+import restaurantMenu from './modules/restaurantMenu';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    orders
+    order,
+    restaurantMenu
   }
 });
