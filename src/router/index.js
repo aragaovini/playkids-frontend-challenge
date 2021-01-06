@@ -5,11 +5,6 @@ import Order from '../views/order/Order.vue';
 
 Vue.use(VueRouter);
 
-const ItemSelectionView = () =>
-  import(
-    /* webpackChunkName: "item-selection" */ '../views/order/children/ItemSelection.vue'
-  );
-
 const routes = [
   {
     path: '/',
@@ -39,12 +34,18 @@ const routes = [
       {
         path: 'food',
         name: 'FoodSelection',
-        component: ItemSelectionView
+        component: () =>
+          import(
+            /* webpackChunkName: "food-selection" */ '../views/order/children/FoodSelection.vue'
+          )
       },
       {
         path: 'drink',
         name: 'DrinkSelection',
-        component: ItemSelectionView
+        component: () =>
+          import(
+            /* webpackChunkName: "drink-selection" */ '../views/order/children/DrinkSelection.vue'
+          )
       },
       {
         path: 'payment',

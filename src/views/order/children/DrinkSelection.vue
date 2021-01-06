@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h2>Choose your {{ itemsType }}</h2>
+    <h2>Choose your drinks</h2>
 
     <c-items-picker
-      :list="list"
+      :list="drinkList"
       @onItemChosen="item => handleChosenItem(item)"
     />
 
-    <c-button v-if="!isFoodStep" @click="back">Back</c-button>
+    <c-button @click="back">Back</c-button>
     <c-button @click="next">Next</c-button>
   </div>
 </template>
@@ -26,14 +26,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters('restaurantMenu', ['foodList', 'drinkList']),
-    ...mapState('order', ['newOrder']),
-    itemsType() {
-      return this.isFoodStep ? 'foods' : 'drinks';
-    },
-    list() {
-      return this.isFoodStep ? this.foodList : this.drinkList;
-    }
+    ...mapGetters('restaurantMenu', ['drinkList']),
+    ...mapState('order', ['newOrder'])
   },
 
   data: () => ({
@@ -46,9 +40,7 @@ export default {
       return;
     }
 
-    if (!this.list.length) this.$store.dispatch('restaurantMenu/get');
-
-    this.isFoodStep = this.$route.fullPath.includes('food');
+    if (!this.drinkList.length) this.$store.dispatch('restaurantMenu/get');
   },
 
   methods: {
@@ -61,34 +53,14 @@ export default {
     },
 
     next() {
-      let nextStep = '';
-      if (this.isFoodStep) {
-        nextStep = '/order/drink';
-      } else {
-        if (!this.newOrder.items.length) {
-          return;
-        }
-        nextStep = '/order/payment';
+      if (!this.newOrder.items.length) {
+        return;
       }
-      this.$router.push(nextStep);
+      this.$router.push('/order/payment');
     },
     back() {
       this.$router.push('/order/food');
     }
-  },
-
-  watch: {
-    $route(to) {
-      this.isFoodStep = to.fullPath.includes('food');
-    }
   }
 };
 </script>
-
-<style scoped>
-.cards-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-</style>
