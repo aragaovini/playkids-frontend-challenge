@@ -32,9 +32,7 @@ const order = {
     save(state, details) {
       const order = {
         ...state.newOrder,
-        payment: details.payment,
-        createdAt: details.createdAt,
-        id: details.id
+        ...details
       };
       state.orders.push(order);
       state.newOrder = {
