@@ -7,6 +7,7 @@
       @onItemChosen="item => handleChosenItem(item)"
     />
 
+    <c-button v-if="!isFoodStep" @click="back">Back</c-button>
     <c-button @click="next">Next</c-button>
   </div>
 </template>
@@ -25,18 +26,18 @@ export default {
   },
 
   computed: {
-    ...mapGetters('restaurantMenu', ['foodList']),
+    ...mapGetters('restaurantMenu', ['foodList', 'drinkList']),
     ...mapState('order', ['newOrder']),
     itemsType() {
-      return this.category === 'food' ? 'foods' : 'drinks';
+      return this.isFoodStep ? 'foods' : 'drinks';
     },
     list() {
-      return this.category === 'food' ? this.foodList : [];
+      return this.isFoodStep ? this.foodList : this.drinkList;
     }
   },
 
   data: () => ({
-    category: ''
+    isFoodStep: true
   }),
 
   created() {
@@ -44,9 +45,6 @@ export default {
       this.$router.push('/order/customer');
       return;
     }
-
-    const { category } = this.$attrs;
-    this.category = category;
 
     this.$store.dispatch('restaurantMenu/get');
   },
@@ -61,14 +59,17 @@ export default {
     },
 
     next() {
-      const nextStep = this.category === 'food' ? '/order/drink' : '';
+      const nextStep = this.isFoodStep ? '/order/drink' : '';
       this.$router.push(nextStep);
+    },
+    back() {
+      this.$router.push('/order/food');
     }
   },
 
   watch: {
     $route(to) {
-      this.category = to.params.category;
+      this.isFoodStep = to.fullPath.includes('food');
     }
   }
 };
