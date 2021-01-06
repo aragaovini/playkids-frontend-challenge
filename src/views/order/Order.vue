@@ -62,6 +62,7 @@ export default {
 
 .order-details {
   flex: auto;
+  max-width: 400px;
 }
 
 .order-view {

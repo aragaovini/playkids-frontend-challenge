@@ -60,7 +60,16 @@ export default {
       });
     },
 
-    next() {}
+    next() {
+      const nextStep = this.category === 'food' ? '/order/drink' : '';
+      this.$router.push(nextStep);
+    }
+  },
+
+  watch: {
+    $route(to) {
+      this.category = to.params.category;
+    }
   }
 };
 </script>
