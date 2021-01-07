@@ -48,8 +48,8 @@ export default {
 
 <style scoped lang="scss">
 @use './assets/styles/colors' as *;
-@use './assets/styles/sizes' as *;
 @use './assets/styles/screen-sizes' as *;
+@use './assets/styles/sizes' as *;
 
 .app__main {
   display: flex;
@@ -58,7 +58,7 @@ export default {
   .app__main-card {
     flex: 1;
     max-width: 1100px;
-    margin: $size-lg;
+    margin: 84px $size-md;
   }
 }
 

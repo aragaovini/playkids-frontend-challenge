@@ -17,7 +17,7 @@
           type="number"
         />
 
-        <c-button @click="confirm">Confirm</c-button>
+        <c-button @click="confirm" :disabled="!quantity">Confirm</c-button>
       </div>
     </div>
   </transition>
@@ -67,6 +67,7 @@ export default {
         quantity,
         price
       });
+      this.quantity = 1;
     },
     cancel() {
       this.$emit('onCancel');
@@ -83,6 +84,7 @@ export default {
 .modal__body {
   position: fixed;
   bottom: 0;
+  left: 0;
   height: 100%;
   max-height: 300px;
   width: 100%;
@@ -105,6 +107,7 @@ export default {
 .modal__background {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   background: rgba(48, 48, 48, 0.3);

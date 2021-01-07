@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h2>Customer Identification</h2>
-
     <c-input label="Name" v-model="customerIdentification" />
 
-    <c-button @click="next">next</c-button>
+    <div class="actions-container">
+      <c-button @click="next">next</c-button>
+    </div>
   </div>
 </template>
 
@@ -24,6 +24,11 @@ export default {
     customerIdentification: ''
   }),
 
+  created() {
+    this.$store.commit('order/resetCustomer');
+    this.$store.commit('order/setCurrentStep', 'Customer Identification');
+  },
+
   methods: {
     next() {
       const { customerIdentification } = this;
@@ -34,3 +39,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.actions-container {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

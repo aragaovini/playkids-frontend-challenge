@@ -5,6 +5,7 @@ import store from './store';
 import VueCurrencyFilter from 'vue-currency-filter';
 import VueTheMask from 'vue-the-mask';
 import UUID from 'vue-uuid';
+import './filters/card-number';
 
 Vue.use(VueCurrencyFilter, {
   symbol: 'R$',
