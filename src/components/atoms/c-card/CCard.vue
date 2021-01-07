@@ -22,7 +22,7 @@ export default {
   background-color: #fff;
   padding: 14px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 1px 1px 3px #ccc;
   &.clickable {
     cursor: pointer;
