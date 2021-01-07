@@ -52,10 +52,11 @@ export default {
 }
 
 .navbar {
-  position: relative;
+  position: fixed;
   background-color: $red;
-  padding: $size-md;
+  padding: $size-md 0px;
   display: flex;
+  width: 100%;
   justify-content: space-between;
   color: $white;
   box-shadow: 1px 1px 4px $dark-gray;
@@ -69,6 +70,7 @@ export default {
 
   .navbar__menu-icon {
     font-size: $size-md;
+    margin: 0px $size-md;
     &:hover {
       cursor: pointer;
     }
@@ -81,6 +83,7 @@ export default {
     display: flex;
     gap: $size-md;
     transition: transform 0.3s;
+    margin: 0px $size-md;
     a {
       transition: opacity 0.3s;
       @extend .link;
@@ -94,6 +97,7 @@ export default {
         transform: translateX(-160px);
       }
       position: fixed;
+      margin: 0px;
       background-color: $white;
       padding: 0px;
       right: 0;

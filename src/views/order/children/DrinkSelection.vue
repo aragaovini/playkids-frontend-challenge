@@ -1,14 +1,14 @@
 <template>
   <div>
-    <h2>Choose your drinks</h2>
-
     <c-items-picker
       :list="drinkList"
       @onItemChosen="item => handleChosenItem(item)"
     />
 
-    <c-button @click="back">Back</c-button>
-    <c-button @click="next">Next</c-button>
+    <div class="actions-container">
+      <c-button @click="back">Back</c-button>
+      <c-button @click="next" :disabled="!newOrder.items.length">Next</c-button>
+    </div>
   </div>
 </template>
 
@@ -40,6 +40,7 @@ export default {
       return;
     }
 
+    this.$store.commit('order/setCurrentStep', 'Choose your drinks');
     if (!this.drinkList.length) this.$store.dispatch('restaurantMenu/get');
   },
 
@@ -64,3 +65,13 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+@use '../../../assets/styles/sizes' as *;
+
+.actions-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $size-md;
+}
+</style>

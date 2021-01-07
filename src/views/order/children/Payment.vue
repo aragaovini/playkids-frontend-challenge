@@ -2,7 +2,9 @@
   <div>
     <h2>Payment</h2>
 
-    <p>Total: {{ amount | currency }}</p>
+    <p>
+      <b>Total: {{ amount | currency }}</b>
+    </p>
 
     <c-input label="Name" v-model="payment.name" />
     <c-input
@@ -18,8 +20,10 @@
     />
     <c-input label="CVV" v-mask="['####']" v-model="payment.cvv" />
 
-    <c-button @click="back">Back</c-button>
-    <c-button @click="order">Order</c-button>
+    <div class="actions-container">
+      <c-button @click="back">Back</c-button>
+      <c-button @click="order">Order</c-button>
+    </div>
   </div>
 </template>
 
@@ -82,3 +86,13 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+@use '../../../assets/styles/sizes' as *;
+
+.actions-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $size-md;
+}
+</style>

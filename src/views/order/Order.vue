@@ -1,18 +1,29 @@
 <template>
   <div>
-    <h1>New Order</h1>
+    <h1>{{ currentStep || 'New Order' }}</h1>
     <div class="container">
-      <router-view class="order-view"></router-view>
       <div v-if="newOrder.customerIdentification" class="order-details">
         <h2>Your Order</h2>
 
-        <p>{{ newOrder.customerIdentification }}</p>
-        <ul>
-          <li v-for="item in newOrder.items" class="list-item" :key="item.id">
+        <p>
+          Customer: <b>{{ newOrder.customerIdentification }}</b>
+        </p>
+        <ul class="order-details__list">
+          <li
+            v-for="item in newOrder.items"
+            class="order-details__item"
+            :key="item.id"
+          >
             <div>
-              <p>{{ item.name }}</p>
-              <p>Qt.:{{ item.quantity }}</p>
-              <p>{{ item.price | currency }}</p>
+              <p>
+                Item: <b>{{ item.name }}</b>
+              </p>
+              <p>
+                Quantity.: <b>{{ item.quantity }}</b>
+              </p>
+              <p>
+                Price: <b>{{ item.price | currency }}</b>
+              </p>
             </div>
             <trash-can-icon
               v-if="newOrder.itemsDeletable"
@@ -22,6 +33,12 @@
           </li>
         </ul>
       </div>
+      <router-view
+        :class="[
+          'order-view',
+          { 'details-active': newOrder.customerIdentification }
+        ]"
+      ></router-view>
     </div>
   </div>
 </template>
@@ -38,7 +55,7 @@ export default {
   },
 
   computed: {
-    ...mapState('order', ['newOrder'])
+    ...mapState('order', ['newOrder', 'currentStep'])
   },
 
   methods: {
@@ -60,26 +77,39 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '../../assets/styles/sizes' as *;
+
 .container {
   display: flex;
   gap: 16px;
   width: 100%;
   flex-wrap: wrap;
+  text-align: left;
 }
 
 .order-details {
   flex: auto;
-  max-width: 400px;
+  max-width: 350px;
+  min-width: 100px;
+  .order-details__list {
+    padding: 0px;
+    p {
+      margin: 0px 0px 4px;
+    }
+  }
+
+  .order-details__item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $size-md;
+  }
 }
 
 .order-view {
   flex: auto;
-}
-
-.list-item {
-  display: flex;
-  justify-content: space-between;
+  flex: 1;
+  min-width: 300px;
 }
 
 .list-item__action-icon:hover {
