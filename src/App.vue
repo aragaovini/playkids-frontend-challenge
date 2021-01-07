@@ -1,27 +1,10 @@
 <template>
   <div id="app">
-    <nav class="navbar">
-      <router-link class="navbar__logo" to="/orders">
-        Delightful Restaurant
-      </router-link>
-
-      <div class="navbar__options">
-        <menu-icon class="navbar__menu-icon" @click="handleMenuClick" />
-        <div
-          :class="['navbar__links', { 'navbar__links--active': sidebarActive }]"
-        >
-          <router-link @click.native="sidebarActive = false" to="/billing"
-            >Billing</router-link
-          >
-
-          <router-link
-            @click.native="sidebarActive = false"
-            to="/order/customer"
-            >Order</router-link
-          >
-        </div>
-      </div>
-    </nav>
+    <c-navbar
+      :sidebarActive="sidebarActive"
+      @onLinkClick="sidebarActive = false"
+      @onMenuIconClick="handleMenuClick"
+    />
 
     <transition name="fade">
       <div
@@ -41,14 +24,14 @@
 
 <script>
 import CCard from '@/components/atoms/c-card/CCard';
-import MenuIcon from 'vue-material-design-icons/Menu.vue';
+import CNavbar from '@/components/molecules/c-navbar/CNavbar';
 
 export default {
   name: 'App',
 
   components: {
     CCard,
-    MenuIcon
+    CNavbar
   },
 
   data: () => ({
@@ -68,12 +51,6 @@ export default {
 @use './assets/styles/sizes' as *;
 @use './assets/styles/screen-sizes' as *;
 
-.link {
-  color: $white;
-  text-decoration: none;
-  font-size: $size-md;
-}
-
 .app__main {
   display: flex;
   justify-content: center;
@@ -82,74 +59,6 @@ export default {
     flex: 1;
     max-width: 1100px;
     margin: $size-lg;
-  }
-}
-
-.navbar {
-  position: relative;
-  background-color: $red;
-  padding: $size-md;
-  display: flex;
-  justify-content: space-between;
-  color: $white;
-  box-shadow: 1px 1px 4px $dark-gray;
-  font-weight: 400;
-  z-index: 2;
-
-  .navbar__logo {
-    transition: all 0.3s;
-    @extend .link;
-  }
-
-  .navbar__menu-icon {
-    font-size: $size-md;
-    &:hover {
-      cursor: pointer;
-    }
-    @media screen and (min-width: $laptop-min) {
-      display: none;
-    }
-  }
-
-  .navbar__links {
-    display: flex;
-    gap: $size-md;
-    transition: transform 0.3s;
-    a {
-      transition: opacity 0.3s;
-      @extend .link;
-      &:hover {
-        opacity: 0.8;
-      }
-    }
-
-    @media screen and (max-width: $laptop-min) {
-      &.navbar__links--active {
-        transform: translateX(-160px);
-      }
-      position: fixed;
-      background-color: $white;
-      padding: 0px;
-      right: 0;
-      display: flex;
-      flex-flow: column;
-      min-width: 160px;
-      text-align: left;
-      gap: 0px;
-      margin-top: $size-md;
-      height: 100%;
-      right: -160px;
-      a {
-        padding: $size-md;
-        color: $black;
-        transition: all 0.3s;
-        &:hover {
-          transition: all 0.3s;
-          padding-left: $size-lg;
-          background-color: $gray;
-        }
-      }
-    }
   }
 }
 
