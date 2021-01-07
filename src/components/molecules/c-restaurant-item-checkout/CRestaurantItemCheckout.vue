@@ -13,7 +13,7 @@
           autofocus
           min="1"
           label="Quantity"
-          v-model="quantity"
+          v-model.number="quantity"
           type="number"
         />
 
