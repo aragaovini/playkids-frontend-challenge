@@ -1,14 +1,36 @@
 <template>
   <div id="app">
     <nav class="navbar">
-      <router-link class="navbar__logo" to="/orders"
-        >Delightful Restaurant</router-link
-      >
-      <div class="navbar__links">
-        <router-link to="/billing">Billing</router-link>
-        <router-link to="/order/customer">Order</router-link>
+      <router-link class="navbar__logo" to="/orders">
+        Delightful Restaurant
+      </router-link>
+
+      <div class="navbar__options">
+        <menu-icon class="navbar__menu-icon" @click="handleMenuClick" />
+        <div
+          :class="['navbar__links', { 'navbar__links--active': sidebarActive }]"
+        >
+          <router-link @click.native="sidebarActive = false" to="/billing"
+            >Billing</router-link
+          >
+
+          <router-link
+            @click.native="sidebarActive = false"
+            to="/order/customer"
+            >Order</router-link
+          >
+        </div>
       </div>
     </nav>
+
+    <transition name="fade">
+      <div
+        @click="sidebarActive = false"
+        v-if="sidebarActive"
+        class="background"
+      ></div>
+    </transition>
+
     <main class="app__main">
       <c-card class="app__main-card">
         <router-view />
@@ -19,11 +41,24 @@
 
 <script>
 import CCard from '@/components/atoms/c-card/CCard';
+import MenuIcon from 'vue-material-design-icons/Menu.vue';
 
 export default {
   name: 'App',
+
   components: {
-    CCard
+    CCard,
+    MenuIcon
+  },
+
+  data: () => ({
+    sidebarActive: false
+  }),
+
+  methods: {
+    handleMenuClick() {
+      this.sidebarActive = !this.sidebarActive;
+    }
   }
 };
 </script>
@@ -31,6 +66,7 @@ export default {
 <style scoped lang="scss">
 @use './assets/styles/colors' as *;
 @use './assets/styles/sizes' as *;
+@use './assets/styles/screen-sizes' as *;
 
 .link {
   color: $white;
@@ -45,11 +81,12 @@ export default {
   .app__main-card {
     flex: 1;
     max-width: 1100px;
-    margin-top: $size-lg;
+    margin: $size-lg;
   }
 }
 
 .navbar {
+  position: relative;
   background-color: $red;
   padding: $size-md;
   display: flex;
@@ -57,16 +94,27 @@ export default {
   color: $white;
   box-shadow: 1px 1px 4px $dark-gray;
   font-weight: 400;
+  z-index: 2;
 
   .navbar__logo {
     transition: all 0.3s;
     @extend .link;
   }
 
+  .navbar__menu-icon {
+    font-size: $size-md;
+    &:hover {
+      cursor: pointer;
+    }
+    @media screen and (min-width: $laptop-min) {
+      display: none;
+    }
+  }
+
   .navbar__links {
     display: flex;
     gap: $size-md;
-
+    transition: transform 0.3s;
     a {
       transition: opacity 0.3s;
       @extend .link;
@@ -74,7 +122,58 @@ export default {
         opacity: 0.8;
       }
     }
+
+    @media screen and (max-width: $laptop-min) {
+      &.navbar__links--active {
+        transform: translateX(-160px);
+      }
+      position: fixed;
+      background-color: $white;
+      padding: 0px;
+      right: 0;
+      display: flex;
+      flex-flow: column;
+      min-width: 160px;
+      text-align: left;
+      gap: 0px;
+      margin-top: $size-md;
+      height: 100%;
+      right: -160px;
+      a {
+        padding: $size-md;
+        color: $black;
+        transition: all 0.3s;
+        &:hover {
+          transition: all 0.3s;
+          padding-left: $size-lg;
+          background-color: $gray;
+        }
+      }
+    }
   }
+}
+
+.background {
+  display: block;
+  z-index: 1;
+  background-color: $gray;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  @media screen and (min-width: $laptop-min) {
+    display: none;
+  }
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-leave-active {
+  opacity: 0;
 }
 </style>
 
