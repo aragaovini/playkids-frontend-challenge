@@ -56,6 +56,14 @@ const routes = [
           )
       }
     ]
+  },
+  {
+    path: '/billing',
+    name: 'Billing',
+    component: () =>
+      import(
+        /* webpackChunkName: "customer-identification" */ '../views/billing/Billing.vue'
+      )
   }
 ];
 
