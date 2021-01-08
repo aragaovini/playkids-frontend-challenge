@@ -29,17 +29,33 @@ export default {
     ...mapState('order', ['newOrder'])
   },
 
-  created() {
+  async created() {
     if (!this.newOrder.customerIdentification) {
       this.$router.push('/order/customer');
       return;
     }
 
     this.$store.commit('order/setCurrentStep', 'Choose your foods');
-    if (!this.foodList.length) this.$store.dispatch('restaurantMenu/get');
+    if (!this.foodList.length) {
+      this.getMenuList();
+    }
   },
 
   methods: {
+    async getMenuList() {
+      try {
+        this.$store.commit('setAppLoading', true);
+        await this.$store.dispatch('restaurantMenu/get');
+      } catch (error) {
+        this.$store.commit('toggleToast', {
+          color: 'error',
+          message: error
+        });
+      } finally {
+        this.$store.commit('setAppLoading', false);
+      }
+    },
+
     handleChosenItem(item) {
       this.$store.commit('order/setItem', item);
       this.$store.commit('restaurantMenu/setItemSelected', {

@@ -90,7 +90,7 @@ export default {
   },
 
   methods: {
-    order() {
+    async order() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.$store.commit('toggleToast', {
@@ -99,18 +99,40 @@ export default {
         });
         return;
       }
+
+      try {
+        await this.saveOrder();
+      } catch {
+        this.$store.commit('toggleToast', {
+          color: 'error',
+          message: 'Your order failed. Try it again.'
+        });
+      } finally {
+        this.$store.commit('restaurantMenu/setItems', []);
+        this.$router.push('/orders');
+        this.$store.commit('toggleToast', {
+          color: 'success',
+          message: 'Your order has been registered!'
+        });
+        this.$store.commit('setAppLoading', false);
+      }
+    },
+    async saveOrder() {
+      this.$store.commit('setAppLoading', true);
+
       const { payment } = this;
-      this.$store.commit('order/save', {
-        payment,
-        createdAt: new Date().toLocaleString(),
-        id: this.$uuid.v1(),
-        total: this.amount
-      });
-      this.$store.commit('restaurantMenu/setItems', []);
-      this.$router.push('/orders');
-      this.$store.commit('toggleToast', {
-        color: 'success',
-        message: 'Your order has been registered!'
+
+      return new Promise(accept => {
+        setTimeout(() => {
+          accept(
+            this.$store.commit('order/save', {
+              payment,
+              createdAt: new Date().toLocaleString(),
+              id: this.$uuid.v1(),
+              total: this.amount
+            })
+          );
+        }, 2000);
       });
     },
     back() {
