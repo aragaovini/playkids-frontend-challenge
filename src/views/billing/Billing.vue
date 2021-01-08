@@ -4,29 +4,42 @@
 
     Total amount: {{ totalPrice | currency }}
 
-    <h2>Foods sold</h2>
+    <h2 class="subtitle">Foods sold</h2>
     <p v-if="!foodListBilling.length">No registers found</p>
-    <div v-for="food in foodListBilling" :key="food.id">
-      <p>{{ food.name }}</p>
-      <p>{{ food.totalQuantitySold }}</p>
-      <p>{{ food.totalPriceSold | currency }}</p>
-    </div>
+    <c-card class="item-card" v-for="food in foodListBilling" :key="food.id">
+      <div>
+        <p>{{ food.name }}</p>
+        <p>Quantity: {{ food.totalQuantitySold }}</p>
+      </div>
+      <p>
+        <b>{{ food.totalPriceSold | currency }}</b>
+      </p>
+    </c-card>
 
-    <h2>Drinks sold</h2>
+    <h2 class="subtitle">Drinks sold</h2>
     <p v-if="!drinkListBilling.length">No registers found</p>
-    <div v-for="drink in drinkListBilling" :key="drink.id">
-      <p>{{ drink.name }}</p>
-      <p>{{ drink.totalQuantitySold }}</p>
-      <p>{{ drink.totalPriceSold | currency }}</p>
-    </div>
+    <c-card class="item-card" v-for="drink in drinkListBilling" :key="drink.id">
+      <div>
+        <p>{{ drink.name }}</p>
+        <p>Quantity: {{ drink.totalQuantitySold }}</p>
+      </div>
+      <p>
+        <b>{{ drink.totalPriceSold | currency }}</b>
+      </p>
+    </c-card>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import CCard from '@/components/atoms/c-card/CCard';
 
 export default {
   name: 'Billing',
+
+  components: {
+    CCard
+  },
 
   computed: {
     ...mapState('order', ['orders']),
@@ -47,22 +60,32 @@ export default {
 
   methods: {
     async initBilling() {
-      await this.$store.dispatch('restaurantMenu/get');
-      const {
-        sortedSoldItems: foodList,
-        totalSold: totalPriceSoldFood
-      } = this.calculateValues(this.foodList);
+      try {
+        this.$store.commit('setAppLoading', true);
+        await this.$store.dispatch('restaurantMenu/get');
+        const {
+          sortedSoldItems: foodList,
+          totalSold: totalPriceSoldFood
+        } = this.calculateValues(this.foodList);
 
-      this.foodListBilling = foodList;
+        this.foodListBilling = foodList;
 
-      const {
-        sortedSoldItems: drinkList,
-        totalSold: totalPriceSoldDrink
-      } = this.calculateValues(this.drinkList);
+        const {
+          sortedSoldItems: drinkList,
+          totalSold: totalPriceSoldDrink
+        } = this.calculateValues(this.drinkList);
 
-      this.drinkListBilling = drinkList;
+        this.drinkListBilling = drinkList;
 
-      this.totalPrice = totalPriceSoldFood + totalPriceSoldDrink;
+        this.totalPrice = totalPriceSoldFood + totalPriceSoldDrink;
+      } catch {
+        this.$store.commit('toggleToast', {
+          color: 'error',
+          message: 'Fail to get the billing data.'
+        });
+      } finally {
+        this.$store.commit('setAppLoading', false);
+      }
     },
 
     calculateValues(list) {
@@ -92,7 +115,7 @@ export default {
         });
 
         const totalPriceSold = itemFromOrders.reduce(
-          (acc, value) => acc + value.price * (value.quantity || 0),
+          (acc, value) => acc + value.price,
           0
         );
 
@@ -110,3 +133,23 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+@use '../../assets/styles/sizes' as *;
+
+.item-card {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: $size-md;
+  p {
+    margin: 0px 0px 4px;
+    text-align: left;
+  }
+}
+
+.subtitle {
+  text-align: left;
+  margin-bottom: $size-lg;
+}
+</style>

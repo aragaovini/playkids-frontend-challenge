@@ -5,7 +5,7 @@
       <div class="modal__body">
         <close-icon class="modal__close-icon" @click="cancel" />
         <h1>{{ item.name }}</h1>
-        <p>{{ item.description }}</p>
+        <p v-if="item.description">{{ item.description }}</p>
 
         <p>Price: {{ price | currency }}</p>
 

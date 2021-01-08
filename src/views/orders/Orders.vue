@@ -7,12 +7,16 @@
 
     <c-card class="order-card" v-for="order in orders" :key="order.id">
       <p>
+        Identifier: <b>{{ order.id }}</b>
+      </p>
+      <p>
         Customer: <b>{{ order.customerIdentification }}</b>
       </p>
       <p>Products:</p>
       <ul class="order-list">
         <li class="order-list__item" v-for="item in order.items" :key="item.id">
           <div>{{ item.name }}</div>
+          <div>Quantity: {{ item.quantity }}</div>
           <div>{{ item.price | currency }}</div>
         </li>
       </ul>
