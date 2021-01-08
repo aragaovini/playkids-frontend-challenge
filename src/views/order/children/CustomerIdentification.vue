@@ -32,6 +32,13 @@ export default {
   methods: {
     next() {
       const { customerIdentification } = this;
+      if (!customerIdentification) {
+        this.$store.commit('toggleToast', {
+          color: 'error',
+          message: 'Please, insert your name.'
+        });
+        return;
+      }
       this.$store.commit('order/setName', customerIdentification);
 
       this.$router.push('/order/food');

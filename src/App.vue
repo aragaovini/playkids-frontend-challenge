@@ -19,19 +19,27 @@
         <router-view />
       </c-card>
     </main>
+    <c-toast ref="toast" />
   </div>
 </template>
 
 <script>
 import CCard from '@/components/atoms/c-card/CCard';
+import CToast from '@/components/atoms/c-toast/CToast';
 import CNavbar from '@/components/molecules/c-navbar/CNavbar';
+import { mapState } from 'vuex';
 
 export default {
   name: 'App',
 
   components: {
     CCard,
-    CNavbar
+    CNavbar,
+    CToast
+  },
+
+  computed: {
+    ...mapState(['toastOptions', 'toastOptionsList'])
   },
 
   data: () => ({
@@ -41,6 +49,17 @@ export default {
   methods: {
     handleMenuClick() {
       this.sidebarActive = !this.sidebarActive;
+    }
+  },
+
+  watch: {
+    toastOptions(newToast) {
+      if (!newToast) {
+        return;
+      }
+
+      this.$refs.toast.show(newToast);
+      this.$store.commit('toggleToast', null);
     }
   }
 };
