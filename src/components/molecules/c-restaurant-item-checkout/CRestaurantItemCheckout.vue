@@ -77,6 +77,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../../assets/styles/sizes' as *;
+
 .modal {
   transition: opacity 0.3s;
 }
@@ -85,14 +87,16 @@ export default {
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 100%;
-  max-height: 300px;
+  height: auto;
+  min-height: 300px;
   width: 100%;
   background-color: rgb(255, 255, 255);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: $size-sm;
+  box-sizing: border-box;
 }
 
 .modal__close-icon {

@@ -20,13 +20,16 @@
       </c-card>
     </main>
     <c-toast ref="toast" />
+    <c-loading v-if="$store.state.isAppLoading" />
   </div>
 </template>
 
 <script>
 import CCard from '@/components/atoms/c-card/CCard';
 import CToast from '@/components/atoms/c-toast/CToast';
+import CLoading from '@/components/atoms/c-loading/CLoading';
 import CNavbar from '@/components/molecules/c-navbar/CNavbar';
+
 import { mapState } from 'vuex';
 
 export default {
@@ -35,7 +38,8 @@ export default {
   components: {
     CCard,
     CNavbar,
-    CToast
+    CToast,
+    CLoading
   },
 
   computed: {

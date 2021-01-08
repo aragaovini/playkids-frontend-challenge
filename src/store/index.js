@@ -8,12 +8,17 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    toastOptions: null
+    toastOptions: null,
+    isAppLoading: false
   },
 
   mutations: {
     toggleToast: (state, payload) => {
       state.toastOptions = payload;
+    },
+
+    setAppLoading(state, payload) {
+      state.isAppLoading = payload;
     }
   },
 
