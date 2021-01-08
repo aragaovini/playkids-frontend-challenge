@@ -64,7 +64,8 @@ export default {
   z-index: 2;
 
   .navbar__logo {
-    transition: all 0.3s;
+    margin-left: $size-md;
+    line-height: 29px;
     @extend .link;
   }
 
