@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h2>Payment</h2>
-
     <p>
       <b>Total: {{ amount | currency }}</b>
     </p>
@@ -87,6 +85,8 @@ export default {
       this.$router.push('/order/customer');
       return;
     }
+
+    this.$store.commit('order/setCurrentStep', 'Payment');
   },
 
   methods: {

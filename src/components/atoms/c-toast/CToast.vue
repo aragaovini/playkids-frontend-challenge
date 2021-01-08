@@ -68,7 +68,7 @@ export default {
   z-index: 3;
   max-width: 400px;
   min-width: 180px;
-  width: 100%;
+  width: calc(100% - 64px);
 }
 
 .container .transition-group {
