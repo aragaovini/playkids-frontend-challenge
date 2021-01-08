@@ -16,7 +16,7 @@
     <c-input
       label="Valid date"
       v-mask="['##/##']"
-      placeholder="mm/aa"
+      placeholder="mm/yy"
       v-model="payment.validDate"
       :v="$v.payment.validDate"
     />
