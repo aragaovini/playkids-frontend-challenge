@@ -1,7 +1,9 @@
 <template>
   <div>
+    <c-input label="Search your drink" v-model="searchTerm" />
+
     <c-items-picker
-      :list="drinkList"
+      :list="filteredList"
       @onItemChosen="item => handleChosenItem(item)"
     />
 
@@ -16,22 +18,38 @@
 import { mapGetters, mapState } from 'vuex';
 import CItemsPicker from '@/components/organisms/c-items-picker/CItemsPicker';
 import CButton from '@/components/atoms/c-button/CButton';
+import CInput from '@/components/atoms/c-input/CInput';
 
 export default {
   name: 'ItemSelection',
 
   components: {
     CItemsPicker,
-    CButton
+    CButton,
+    CInput
   },
 
   computed: {
     ...mapGetters('restaurantMenu', ['drinkList']),
-    ...mapState('order', ['newOrder'])
+    ...mapState('order', ['newOrder']),
+
+    filteredList() {
+      const list = [...this.drinkList];
+      const orderedList = list.sort((firstItem, nextItem) =>
+        firstItem.name.localeCompare(nextItem.name)
+      );
+
+      if (!this.searchTerm) return orderedList;
+
+      return orderedList.filter(drink => {
+        const name = drink.name.toLowerCase();
+        return name.includes(this.searchTerm.toLowerCase());
+      });
+    }
   },
 
   data: () => ({
-    isFoodStep: true
+    searchTerm: ''
   }),
 
   created() {
