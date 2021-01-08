@@ -5,6 +5,8 @@ import store from './store';
 import VueCurrencyFilter from 'vue-currency-filter';
 import VueTheMask from 'vue-the-mask';
 import UUID from 'vue-uuid';
+import Vuelidate from 'vuelidate';
+
 import './filters/card-number';
 
 Vue.use(VueCurrencyFilter, {
@@ -20,6 +22,8 @@ Vue.use(VueCurrencyFilter, {
 Vue.use(VueTheMask);
 
 Vue.use(UUID);
+
+Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
 

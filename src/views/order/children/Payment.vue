@@ -1,24 +1,32 @@
 <template>
   <div>
-    <h2>Payment</h2>
-
     <p>
       <b>Total: {{ amount | currency }}</b>
     </p>
 
-    <c-input label="Name" v-model="payment.name" />
+    <c-input label="Name" v-model="payment.name" :v="$v.payment.name" />
+
     <c-input
       label="Card number"
       v-mask="['#### #### #### ####']"
       v-model="payment.cardNumber"
+      :v="$v.payment.cardNumber"
     />
+
     <c-input
       label="Valid date"
       v-mask="['##/##']"
       placeholder="mm/aa"
       v-model="payment.validDate"
+      :v="$v.payment.validDate"
     />
-    <c-input label="CVV" v-mask="['####']" v-model="payment.cvv" />
+
+    <c-input
+      label="CVV"
+      v-mask="['####']"
+      v-model="payment.cvv"
+      :v="$v.payment.cvv"
+    />
 
     <div class="actions-container">
       <c-button @click="back">Back</c-button>
@@ -31,6 +39,8 @@
 import CInput from '@/components/atoms/c-input/CInput';
 import CButton from '@/components/atoms/c-button/CButton';
 import { mapState } from 'vuex';
+import { required, minLength } from 'vuelidate/lib/validators';
+import { isCardDateValid } from '@/validators';
 
 export default {
   name: 'Payment',
@@ -52,6 +62,15 @@ export default {
     }
   },
 
+  validations: {
+    payment: {
+      name: { required },
+      cardNumber: { required, minLength: minLength(19) },
+      validDate: { required, minLength: minLength(5), isCardDateValid },
+      cvv: { required, minLength: minLength(3) }
+    }
+  },
+
   data: () => ({
     payment: {
       name: '',
@@ -66,10 +85,20 @@ export default {
       this.$router.push('/order/customer');
       return;
     }
+
+    this.$store.commit('order/setCurrentStep', 'Payment');
   },
 
   methods: {
     order() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        this.$store.commit('toggleToast', {
+          color: 'error',
+          message: 'Please, review the fields.'
+        });
+        return;
+      }
       const { payment } = this;
       this.$store.commit('order/save', {
         payment,
@@ -79,6 +108,10 @@ export default {
       });
       this.$store.commit('restaurantMenu/setItems', []);
       this.$router.push('/orders');
+      this.$store.commit('toggleToast', {
+        color: 'success',
+        message: 'Your order has been registered!'
+      });
     },
     back() {
       this.$router.push('/order/drink');
