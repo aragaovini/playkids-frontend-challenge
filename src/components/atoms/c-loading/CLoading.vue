@@ -1,5 +1,5 @@
 <template>
-  <div class="background">
+  <div class="spinner-background">
     <spinner class="spinner" />
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style scoped>
-.background {
+.spinner-background {
   position: absolute;
   top: 0;
   left: 0;
@@ -26,6 +26,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(48, 48, 48, 0.3);
 }
 
 .spinner {
