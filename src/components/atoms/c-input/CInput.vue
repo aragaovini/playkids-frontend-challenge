@@ -1,12 +1,12 @@
 <template>
-  <div class="input">
+  <div :class="['input', { 'invalid-input': v && v.$error && v.$dirty }]">
     <label class="input__label">{{ label }}</label>
-    <input
-      class="input__field"
-      v-bind="$attrs"
-      v-model="model"
-      @input="handleInput"
-    />
+    <input class="input__field" v-bind="$attrs" v-model="model" />
+    <div v-if="v && v.$error && v.$dirty" class="input__errors">
+      <p>
+        {{ errorText }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -15,23 +15,59 @@ export default {
   name: 'CInput',
 
   props: {
-    model: {
-      type: [String, Number]
+    value: {
+      type: [String, Number],
+      default: ''
     },
+
     label: {
       type: String,
       default: ''
+    },
+
+    /*
+     ** Vuelidate instance
+     */
+    v: {
+      type: Object,
+      default: () => null
     }
   },
 
-  model: {
-    prop: 'model',
-    event: 'input'
-  },
+  computed: {
+    model: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        if (this.v) this.v.$touch();
+        this.$emit('input', value);
+      }
+    },
+    errorText() {
+      if (!this.v) return;
 
-  methods: {
-    handleInput(model) {
-      this.$emit('input', model.target.value);
+      const hasRequiredValidation = Object.keys(this.v.$params).includes(
+        'required'
+      );
+
+      const hasMinLengthValidation = Object.keys(this.v.$params).includes(
+        'minLength'
+      );
+
+      const hasCardDateValidation = Object.keys(this.v.$params).includes(
+        'isCardDateValid'
+      );
+
+      if (hasRequiredValidation && !this.v.required) return 'Field is invalid';
+
+      if (hasMinLengthValidation && !this.v.minLength)
+        return 'Field size is incorrect';
+
+      if (hasCardDateValidation && !this.v.isCardDateValid)
+        return 'Card valid date is incorrect';
+
+      return '';
     }
   }
 };
@@ -42,10 +78,12 @@ export default {
 @use '../../../assets/styles/sizes' as *;
 
 .input {
-  margin-bottom: $size-md;
+  margin-bottom: $size-lg;
   display: flex;
   flex-flow: column;
   text-align: left;
+  position: relative;
+
   .input__label {
     font-size: 14px;
     color: $black;
@@ -64,6 +102,22 @@ export default {
         color: $black;
       }
     }
+  }
+
+  &.invalid-input {
+    .input__label {
+      color: $red;
+    }
+    .input__field {
+      border-color: $red;
+    }
+  }
+
+  .input__errors {
+    color: $red;
+    font-size: 14px;
+    position: absolute;
+    top: 40px;
   }
 }
 </style>
