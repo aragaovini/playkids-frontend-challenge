@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FoodSelection view renders correctly 1`] = `
+<div>
+  <div class="input"><label class="input__label">Search your food</label> <input class="input__field">
+    <!---->
+  </div>
+  <div>
+    <div class="cards-container">
+      <div class="card clickable">
+        <p>Fish</p>
+        <p></p>
+        <!---->
+        <p>8.9</p>
+      </div>
+    </div>
+    <transition-stub name="modal">
+      <!---->
+    </transition-stub>
+  </div>
+  <div class="actions-container"><button class="button">Back</button> <button class="button">Next</button></div>
+</div>
+`;
