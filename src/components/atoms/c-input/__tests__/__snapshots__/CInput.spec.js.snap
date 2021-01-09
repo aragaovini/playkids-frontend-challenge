@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CInput component renders correctly 1`] = `
+<div class="input"><label class="input__label"></label> <input class="input__field">
+  <!---->
+</div>
+`;

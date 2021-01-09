@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CLoading component renders correctly 1`] = `
+<div class="spinner-background">
+  <spinner-stub class="spinner"></spinner-stub>
+</div>
+`;

@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CToast component renders correctly 1`] = `
+<div class="container">
+  <transition-group-stub tag="div" name="list" class="transition-group"></transition-group-stub>
+</div>
+`;

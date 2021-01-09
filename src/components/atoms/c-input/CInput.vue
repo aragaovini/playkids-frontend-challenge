@@ -59,7 +59,7 @@ export default {
         'isCardDateValid'
       );
 
-      if (hasRequiredValidation && !this.v.required) return 'Field is invalid';
+      if (hasRequiredValidation && !this.v.required) return 'Field is required';
 
       if (hasMinLengthValidation && !this.v.minLength)
         return 'Field size is incorrect';
